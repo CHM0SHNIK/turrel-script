@@ -1,5 +1,3 @@
-"""Логика наведения: выбор landmark'а и расчёт углов поворота турели."""
-
 from config import LANDMARKS, DEFAULT_TARGET, MAX_PAN_ANGLE, MAX_TILT_ANGLE
 
 
@@ -33,3 +31,22 @@ class Targeting:
         tilt_angle = offset_y / frame_h * MAX_TILT_ANGLE
 
         return tx, ty, pan_angle, tilt_angle
+
+    def compute_bbox(self, landmarks, frame_w, frame_h, padding=0.05):
+        if not landmarks:
+            return None
+
+        xs = [lm.x for lm in landmarks]
+        ys = [lm.y for lm in landmarks]
+        x1, x2 = min(xs), max(xs)
+        y1, y2 = min(ys), max(ys)
+
+        pad_x = (x2 - x1) * padding
+        pad_y = (y2 - y1) * padding
+
+        x1 = int(max(0, (x1 - pad_x) * frame_w))
+        x2 = int(min(frame_w, (x2 + pad_x) * frame_w))
+        y1 = int(max(0, (y1 - pad_y) * frame_h))
+        y2 = int(min(frame_h, (y2 + pad_y) * frame_h))
+
+        return x1, y1, x2, y2

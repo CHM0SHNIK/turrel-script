@@ -18,3 +18,7 @@ DEFAULT_TARGET = "nose"
 # Максимальные углы поворота турели (градусы)
 MAX_PAN_ANGLE = 90
 MAX_TILT_ANGLE = 60
+
+# Виды отображения цели на кадре
+DISPLAY_MODES = ["bbox", "point", "both"]
+DEFAULT_DISPLAY_MODE = "bbox"

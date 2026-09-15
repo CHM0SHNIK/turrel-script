@@ -5,6 +5,7 @@ import cv2
 from core.camera import Camera
 from core.detection import PoseDetector
 from core.targeting import Targeting
+from core.display import Display
 from config import MODEL_PATH
 
 WINDOW_NAME = "Turret AI test"
@@ -14,8 +15,9 @@ def main():
     camera = Camera(0)
     detector = PoseDetector(MODEL_PATH)
     targeting = Targeting()
+    display = Display()
 
-    print("ESC — выход, N — переключить target")
+    print("ESC — выход, N — переключить target, M — переключить вид отображения")
 
     while camera.is_opened():
         ret, frame = camera.read()
@@ -29,11 +31,13 @@ def main():
         if result:
             tx, ty, pan_angle, tilt_angle = result
             cx, cy = w // 2, h // 2
-            cv2.circle(frame, (tx, ty), 8, (0, 0, 255), -1)
-            cv2.line(frame, (cx, cy), (tx, ty), (0, 255, 0), 2)
+
+            bbox = targeting.compute_bbox(landmarks, w, h)
+            display.draw(frame, tx, ty, bbox, cx, cy)
+
             cv2.putText(
                 frame,
-                f"target={targeting.target_name} pan={pan_angle:.1f} tilt={tilt_angle:.1f}",
+                f"target={targeting.target_name} view={display.mode} pan={pan_angle:.1f} tilt={tilt_angle:.1f}",
                 (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2,
             )
 
@@ -43,6 +47,8 @@ def main():
             break
         elif key in (ord("n"), ord("N")):
             targeting.next_target()
+        elif key in (ord("m"), ord("M")):
+            display.next_mode()
 
     camera.release()
     cv2.destroyAllWindows()

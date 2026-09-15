@@ -1,5 +1,3 @@
-"""Обёртка над cv2.VideoCapture."""
-
 import cv2
 
 

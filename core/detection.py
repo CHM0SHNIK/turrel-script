@@ -1,5 +1,3 @@
-"""Обёртка над MediaPipe PoseLandmarker (Tasks API)."""
-
 import time
 
 import cv2
@@ -20,7 +18,6 @@ class PoseDetector:
         self._start_time = time.time()
 
     def detect(self, frame):
-        """frame — кадр BGR из OpenCV. Возвращает список landmark'ов первого человека или None."""
         mp_image = mp.Image(
             image_format=mp.ImageFormat.SRGB,
             data=cv2.cvtColor(frame, cv2.COLOR_BGR2RGB),
