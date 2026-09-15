@@ -26,3 +26,11 @@ class Display:
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)
         
         cv2.line(frame, (cx, cy), (tx, ty), (0, 255, 0), 2)
+    
+    def draw_people(self, frame, points, selected_idx):
+        for i, pt in enumerate(points):
+            if pt is None or i == selected_idx:
+                continue
+            cv2.circle(frame, pt, 6, (180, 180, 180), -1)
+            cv2.putText(frame, str(i + 1), (pt[0] + 8, pt[1] - 8),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (180, 180, 180), 1)

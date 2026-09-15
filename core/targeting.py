@@ -50,3 +50,10 @@ class Targeting:
         y2 = int(min(frame_h, (y2 + pad_y) * frame_h))
 
         return x1, y1, x2, y2
+    def point_for(self, landmarks, frame_w, frame_h):
+        """Координаты текущего target landmark'а для произвольного набора
+        landmark'ов — используется, чтобы отметить на кадре всех людей."""
+        if landmarks is None or self.target_index >= len(landmarks):
+            return None
+        lm = landmarks[self.target_index]
+        return int(lm.x * frame_w), int(lm.y * frame_h)

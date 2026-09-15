@@ -13,6 +13,8 @@ LANDMARKS = {
     "right_hip": 24,
 }
 
+MAX_PEOPLE = 4
+
 DEFAULT_TARGET = "nose"
 
 # Максимальные углы поворота турели (градусы)

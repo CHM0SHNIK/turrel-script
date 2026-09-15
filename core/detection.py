@@ -26,7 +26,7 @@ class PoseDetector:
         result = self.landmarker.detect_for_video(mp_image, timestamp_ms)
 
         if result.pose_landmarks:
-            return result.pose_landmarks[0]
+            return result.pose_landmarks
         return None
 
     def close(self):
